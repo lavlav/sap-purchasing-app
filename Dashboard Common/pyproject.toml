@@ -1,0 +1,31 @@
+[project]
+name = "common"
+version = "0.1.0"
+description = "Shared utilities for Purchasing App projects"
+authors = [{ name = "Lavin Chellaram", email = "lchellaram@ocusoft.com" }]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pandas>=2.3.1",
+    "pydantic>=2.11.7",
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "tests/callbacks", "tests/layout"]
+pythonpath = "src"
+
+[tool.uv.sources]
+common = { workspace = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+    "pytest-coverage>=0.0",
+    "testcontainers[postgres]>=4.12.0",
+]

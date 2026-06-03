@@ -1,0 +1,44 @@
+[project]
+name = "purchasing-dashboard"
+version = "0.1.0"
+description = "Purchasing Dashboard for SAP B1"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "cachetools>=6.1.0",
+    "dash[celery,diskcache]>=3.1.1",
+    "dash-auth>=2.3.0",
+    "pandas>=2.3.0",
+    "plotly>=6.2.0",
+    "pydantic>=2.11.7",
+    "requests>=2.32.4",
+    "statsmodels>=0.14.5",
+    "frozendict>=2.4.6",
+    "waitress>=3.0.2",
+    "python-dotenv>=1.1.1",
+    "common",
+    "gunicorn>=23.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "dash[testing]>=3.1.1",
+    "common>=0.1.0",
+    "purchasing-dashboard",
+    "py-spy>=0.4.0",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "watchdog>=6.0.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "tests/callbacks", "tests/layout", "tests/utils"]
+pythonpath = "src"
+
+[tool.uv.sources]
+common = { path = "../Dashboard Common", editable = true }
+purchasing-dashboard = { workspace = true }

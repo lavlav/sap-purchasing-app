@@ -1,0 +1,29 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Pytest
+.pytest_cache/
+.coverage
+
+# Virtual environments
+.venv
+
+# Diskcache files
+.cache/
+
+# Environment variables
+.env
+.env.*
+
+# IDE and editor files
+.vscode/
+
+# Docker secrets
+# TODO #74: in the future, I could create a template for this file,
+# and enforce no changes to it are made with a pre-commit hook
+dashboard_secrets.json

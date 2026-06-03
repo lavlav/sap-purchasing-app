@@ -1,0 +1,72 @@
+# Use this file locally to run the application in development mode.
+# Make sure all secrets and env files are defined as specified in the READMEs!
+services:
+  tests:
+    profiles: ["unit_testing"]
+    build:
+      context: .
+      dockerfile: ./"Dashboard Data API"/test.Dockerfile
+    volumes:
+      - .:/app
+    command: pytest --maxfail=1 --disable-warnings -v
+
+  api:
+    profiles: ["beta", "alpha", "e2e_testing"]
+    container_name: "data-api"
+    image: "data-api:latest"
+    secrets:
+      - api_secrets
+    environment:
+      - SECRETS_FILE=/run/secrets/api_secrets
+      - LOG_LEVEL
+    env_file:
+      - "./Dashboard Data API/.env.docker"
+    ports:
+      - "8000"
+    #command: ["uv", "run", "uvicorn", "data_api.api_main:app", "--host", "0.0.0.0", "--port", "8000"]
+    depends_on:
+      - mock_database
+
+  dashboard:
+    profiles: ["beta", "alpha", "e2e_testing"]
+    container_name: "purchasing-dashboard"
+    image: "purchasing-dashboard:latest"
+    secrets:
+      - dashboard_secrets
+    environment:
+      - SECRETS_FILE=/run/secrets/dashboard_secrets
+      - DEBUG_ENABLED
+      - LOG_LEVEL
+      - API_URL
+    env_file:
+      - "./Purchasing Dashboard/.env.docker"
+    ports:
+      - "12012:8050"
+    # Can tweak to use gunicorn or waitress
+    # TODO #74: figure out which is better and only use that
+    command: ["sh", "-c", "sleep 15 && uv run gunicorn -b 0.0.0.0:8050 purchasing_dashboard.app:app"]
+    depends_on:
+      - mock_database
+
+  # Starts up mock database used to test stuff
+  mock_database:
+    profiles: ["alpha", "e2e_testing"]
+    container_name: "mock-database"
+    image: "mcr.microsoft.com/mssql/server:2019-CU14-ubuntu-20.04"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Mock^Database
+      - MSSQL_PID=Developer
+    ports:
+      - "1433"
+    volumes:
+      - ./Dashboard Data API/mock_data/seed.sql:/db-init/seed.sql
+      - ./Dashboard Data API/mock_data/test_data.sql:/db-init/test_data.sql
+      - ./Dashboard Data API/mock_data/init-db.sh:/init-db.sh
+    command: /bin/bash ./init-db.sh
+
+secrets:
+  api_secrets:
+    file: ./Dashboard Data API/api_secrets.json
+  dashboard_secrets:
+    file: ./Purchasing Dashboard/dashboard_secrets.json

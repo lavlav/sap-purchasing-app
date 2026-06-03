@@ -1,0 +1,51 @@
+[project]
+name = "data-api"
+version = "0.1.0"
+description = "Data API for the Purchasing Dashboard"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "cachetools>=6.1.0",
+    "fastapi[standard]>=0.115.14",
+    "feature-engine>=1.8.3",
+    "llvmlite>=0.44.0",
+    "numba>=0.61.2",
+    "common",
+    "pandas>=2.3.1",
+    "prometheus-fastapi-instrumentator>=7.1.0",
+    "pydantic>=2.11.7",
+    "pymssql>=2.3.7",
+    "pytest-env>=1.1.5",
+    "python-dotenv>=1.1.1",
+    "pytimetk>=1.2.5",
+    "scikit-learn>=1.7.0",
+    "sqlalchemy>=2.0.41",
+    "theforecastingcompany>=0.1.3",
+    "xgboost>=3.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "common",
+    "data-api",
+    "pytest>=8.4.1",
+    "pytest-cov>=6.2.1",
+    "requests>=2.32.4",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "tests/unit"]
+pythonpath = "src"
+env = [
+    "SECRETS_FILE=none",
+    "GET_SECRETS_FROM_ENVIRONMENT_VARIABLES=true",
+    "HISTORICAL_DATABASE_URL=none",
+    "SAP_DATABASE_URL=none",
+]
+
+[tool.uv.sources]
+common = { path = "../Dashboard Common", editable = true }
+data-api = { workspace = true }
