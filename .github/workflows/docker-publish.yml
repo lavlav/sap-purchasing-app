@@ -1,8 +1,8 @@
 name: Build Nightly
 
 on:
-  schedule:
-    - cron: '25 7 * * 1-6' # Every weekday at 1:25 AM CST/7:25 AM UTC
+  #schedule:
+  #  - cron: '25 7 * * 1-6' # Every weekday at 1:25 AM CST/7:25 AM UTC
   workflow_dispatch:
     inputs:
       image_tag:
