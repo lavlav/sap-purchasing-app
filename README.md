@@ -1,7 +1,10 @@
+## Overview
+
+This project was originally written for my summer 2025 internship at OCuSOFT.
+
 ## Structure
 
 ### Purchasing App
-This project was originally written for my summer 2025 internship at OCuSOFT.
 
 This is the root directory for the Purchasing App. Subdirectories are Python projects.
 
@@ -14,6 +17,10 @@ Contains the API to fetch data from the database, including model training. Buil
 ### Purchasing Dashboard
 
 Contains the logic for rendering the dashboard, including logic for fetching data from the API. Built on Dash.
+
+### Dashboard Common
+
+Stuff common to both.
 
 ## Secrets
 
@@ -40,7 +47,7 @@ However, in Portainer's Docker Standalone environments, containers are manually 
 
 ## Building Alpha End-to-End
 
-Make sure the relevant your `.env` files are set. Also make sure your [secrets](#secrets) are set. Check in the respective package folders for what environment variables are expected, and check in `docker-compose.yml` that your `.env` file is being used to run the image.
+Make sure your relevant  `.env` files are set. Also make sure your [secrets](#secrets) are set. Check in the respective package folders for what environment variables are expected, and check in `docker-compose.yml` that your `.env` file is being used to run the image.
 
 Assuming you have `docker` and `docker-compose`: 
 
